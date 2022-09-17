@@ -1,6 +1,8 @@
 // Test that fork fails gracefully.
 // Tiny executable so that the limit can be filling the proc table.
 
+#include <stdarg.h>
+
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
@@ -48,9 +50,41 @@ forktest(void)
   print("fork test OK\n");
 }
 
+void forktest1()
+{
+    int pid = fork();
+    // parent process
+    if(pid > 0)
+    {
+        print("parent: child\n");
+        pid = wait((int *)0);
+        print("child is done\n");
+    }
+    else if(pid == 0)
+    {
+        print("child: exiting\n");
+        exit(0);
+    }
+    else
+    {
+        print("fork errors\n");
+    }
+}
+void forktest2()
+{
+  if(fork() == 0)
+  {
+    write(1, "hello ", 6);
+  }
+  else{
+    wait(0);
+    write(1, "world\n", 6);
+  }
+}
+
 int
 main(void)
 {
-  forktest();
+  forktest2();
   exit(0);
 }
