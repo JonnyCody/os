@@ -152,6 +152,9 @@ UPROGS=\
 	$U/_helloworld\
 	$U/_pipetest\
 	$U/_filetest\
+	$U/_sleep\
+	$U/_pingpong\
+	$U/_primes\
 
 
 ifeq ($(LAB),syscall)
